@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="easyHiretapesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="easyHiretapesEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Genre" EntityType="easyHiretapesModel.Genre" />
+    <EntitySet Name="sysdiagrams" EntityType="easyHiretapesModel.sysdiagrams" />
+    <EntitySet Name="Videotapes" EntityType="easyHiretapesModel.Videotapes" />
+    <AssociationSet Name="FK_Videotapes_Genre" Association="easyHiretapesModel.FK_Videotapes_Genre">
+      <End Role="Genre" EntitySet="Genre" />
+      <End Role="Videotapes" EntitySet="Videotapes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Genre">
+    <Key>
+      <PropertyRef Name="IDGenre" />
+    </Key>
+    <Property Name="IDGenre" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Videotapes" Relationship="easyHiretapesModel.FK_Videotapes_Genre" FromRole="Genre" ToRole="Videotapes" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Videotapes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameTapes" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="QuantityAviable" Type="Int32" Nullable="false" />
+    <Property Name="GenreID" Type="Int32" />
+    <NavigationProperty Name="Genre" Relationship="easyHiretapesModel.FK_Videotapes_Genre" FromRole="Videotapes" ToRole="Genre" />
+  </EntityType>
+  <Association Name="FK_Videotapes_Genre">
+    <End Type="easyHiretapesModel.Genre" Role="Genre" Multiplicity="0..1" />
+    <End Type="easyHiretapesModel.Videotapes" Role="Videotapes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="IDGenre" />
+      </Principal>
+      <Dependent Role="Videotapes">
+        <PropertyRef Name="GenreID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
